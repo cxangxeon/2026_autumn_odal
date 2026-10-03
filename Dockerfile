@@ -3,7 +3,8 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 COPY . .
-RUN npm run build
+# Keep the runtime COPY valid when the app has no public assets yet.
+RUN mkdir -p public && npm run build
 
 FROM node:24-alpine AS runtime
 WORKDIR /app
